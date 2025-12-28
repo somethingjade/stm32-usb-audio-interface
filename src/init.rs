@@ -24,10 +24,12 @@ pub fn init_shared<'a>() -> global::Shared<'a> {
     let dp_pin_pa12 = gpioa.pa12.into_alternate();
     let mut counter = dp.TIM2.counter_hz(&mut rcc);
     counter.set_master_mode(pac::tim2::cr2::MMS::Update);
-    let adc_config = adc::config::AdcConfig::default().external_trigger(
-        adc::config::TriggerMode::RisingEdge,
-        adc::config::ExternalTrigger::Tim_2_trgo,
-    ).dma(adc::config::Dma::Continuous);
+    let adc_config = adc::config::AdcConfig::default()
+        .external_trigger(
+            adc::config::TriggerMode::RisingEdge,
+            adc::config::ExternalTrigger::Tim_2_trgo,
+        )
+        .dma(adc::config::Dma::Continuous);
     let mut adc = adc::Adc::new(dp.ADC1, true, adc_config, &mut rcc);
     adc.configure_channel(
         &adc_pin_pa4,
